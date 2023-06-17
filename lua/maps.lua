@@ -1,129 +1,128 @@
+--- TERMINAL-MODE MAPPINGS ---
+local fn = vim.fn
+local api = vim.api
+local cmd = vim.cmd
+local map = api.nvim_set_keymap
 
-------- Terminal-mode mappings -------
-if vim.fn.has('nvim') == 1 then
-  vim.api.nvim_set_keymap('t', '<esc>', '<C-\\><C-n>', {})
-  vim.api.nvim_set_keymap('t', 'yw', '<C-\\><C-n>', {})
-  vim.api.nvim_set_keymap('t', ',h', '<C-\\><C-n><C-w>h', {})
-  vim.api.nvim_set_keymap('t', ',l', '<C-\\><C-n><C-w>l', {})
+if fn.has('nvim') == 1 then
+  map('t', '<esc>', '<C-\\><C-n>', {})
+  map('t', 'yw', '<C-\\><C-n>', {})
+  map('t', ',h', '<C-\\><C-n><C-w>h', {})
+  map('t', ',l', '<C-\\><C-n><C-w>l', {})
 end
 
--- ===== Insert-mode mappings =====
-vim.api.nvim_set_keymap('i', 'yw', '<esc>', {})
-vim.api.nvim_set_keymap('i', 'y,w', '<esc>', {})
-vim.api.nvim_set_keymap('i', 'Yw', '<esc>', {})
-vim.api.nvim_set_keymap('i', 'YW', '<esc>', {})
-vim.api.nvim_set_keymap('i', 'yW', '<esc>', {})
-vim.api.nvim_set_keymap('i', '-.', '.->', {})
-vim.api.nvim_set_keymap('i', ',.', '<C-X><C-O>', {})
+--- INSERT-MODE MAPPINGS ---
+map('i', 'yw', '<esc>', {})
+map('i', 'y,w', '<esc>', {})
+map('i', 'Yw', '<esc>', {})
+map('i', 'YW', '<esc>', {})
+map('i', 'yW', '<esc>', {})
+map('i', '-.', '.->', {})
+map('i', ',.', '<C-X><C-O>', {})
 
--- ===== All-mode mappings =====
-vim.api.nvim_set_keymap('', '<space>', ':', {})
-vim.api.nvim_set_var('mapleader', ',.')
-vim.api.nvim_set_var('maplocalleader', ',.')
-vim.api.nvim_set_option('clipboard', 'unnamed')
+--- ALL-MODE MAPPINGS ---
+map('', '<space>', ':', {})
+api.nvim_set_var('mapleader', ',')
+api.nvim_set_var('maplocalleader', ',')
+api.nvim_set_option('clipboard', 'unnamed')
 
--- Pane movement
-vim.api.nvim_set_keymap('n', ',h', '<C-w>h', {})
-vim.api.nvim_set_keymap('n', ',j', '<C-w>j', {})
-vim.api.nvim_set_keymap('n', ',k', '<C-w>k', {})
-vim.api.nvim_set_keymap('n', ',l', '<C-w>l', {})
-vim.api.nvim_set_keymap('n', ',H', '<C-w>H', {})
-vim.api.nvim_set_keymap('n', ',J', '<C-w>J', {})
-vim.api.nvim_set_keymap('n', ',K', '<C-w>K', {})
-vim.api.nvim_set_keymap('n', ',L', '<C-w>L', {})
-vim.api.nvim_set_keymap('n', ',o', ':only<CR>', {})
-vim.api.nvim_set_keymap('n', ',i', ':vsplit<CR>', {})
-vim.api.nvim_set_keymap('n', ',e', ':split<CR>', {})
+-- PANE MOVEMENT ---
+map('n', ',h', '<C-w>h', {})
+map('n', ',j', '<C-w>j', {})
+map('n', ',k', '<C-w>k', {})
+map('n', ',l', '<C-w>l', {})
+map('n', ',H', '<C-w>H', {})
+map('n', ',J', '<C-w>J', {})
+map('n', ',K', '<C-w>K', {})
+map('n', ',L', '<C-w>L', {})
+map('n', ',o', ':only<CR>', {})
+map('n', ',i', ':vsplit<CR>', {})
+map('n', ',e', ':split<CR>', {})
 
--- Windows and buffers
-vim.api.nvim_set_keymap('n', ',<ESC>', ':close<CR>', {})
-vim.api.nvim_set_keymap('n', ',b', ':q<CR>', {})
-vim.api.nvim_set_keymap('n', ',d', '<C-w>j:close<CR>', {})
-vim.api.nvim_set_keymap('n', '<C-h>', '<w>h:close<CR>', {})
-vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l:close<CR>', {})
-vim.api.nvim_set_keymap('n', ',D', '<C-w>k:close<CR>', {})
-vim.api.nvim_set_keymap('n', ',z', ':bdelete!<CR>', {})
-vim.api.nvim_set_keymap('n', ',w', ':w<CR>', {})
-vim.api.nvim_set_keymap('n', ',x', ':x<CR>', {})
-vim.api.nvim_set_keymap('n', ',q', ':qa!<CR>', {})
-vim.api.nvim_set_keymap('n', ',b', ':q<CR>', {})
-vim.api.nvim_set_keymap('n', 'm', ':bn<CR>', {})
-vim.api.nvim_set_keymap('n', 'M', ':bp<CR>', {})
+-- WINDOWS AND BUFFERS ---
+map('n', ',<ESC>', ':close<CR>', {})
+map('n', ',b', ':q<CR>', {})
+map('n', ',d', '<C-w>j:close<CR>', {})
+map('n', '<C-h>', '<w>h:close<CR>', {})
+map('n', '<C-l>', '<C-w>l:close<CR>', {})
+map('n', ',D', '<C-w>k:close<CR>', {})
+map('n', ',z', ':bdelete!<CR>', {})
+map('n', ',w', ':w<CR>', {})
+map('n', ',x', ':x<CR>', {})
+map('n', ',q', ':qa!<CR>', {})
+map('n', ',b', ':q<CR>', {})
+map('n', 'm', ':bn<CR>', {})
+map('n', 'M', ':bp<CR>', {})
 
--- FZF mappings
-vim.api.nvim_set_keymap('n', ',B', ':Buffers<CR>', {})
-vim.api.nvim_set_keymap('n', ',<SPACE>', ':Buffers<CR>', {})
-vim.api.nvim_set_keymap('n', ',a', ':Rg<CR>', {})
-vim.api.nvim_set_keymap('n', ',A', ':Lines<CR>', {})
-vim.api.nvim_set_keymap('n', ',n', ':Telescope find_files<CR>', {})
-vim.api.nvim_set_keymap('n', ',fc', ':Commands<CR>', {})
-vim.api.nvim_set_keymap('n', ',W', ':Windows<CR>', {})
-vim.api.nvim_set_keymap('n', ',N', ':History<CR>', {})
-vim.api.nvim_set_keymap('n', '<C-R>', ':History:<CR>', {})
-vim.api.nvim_set_keymap('n', 'U', ':redo<CR>', {})
+-- FINDING MAPPINGS ---
+map('n', ',t', ':Telescope<CR>', {})
+map('n', ',<SPACE>', ':Buffers<CR>', {})
+map('n', ',a', ':Rg<CR>', {})
+map('n', ',A', ':Lines<CR>', {})
+map('n', ',n', ':Telescope find_files<CR>', {})
+map('n', ',fc', ':Commands<CR>', {})
+map('n', '<C-R>', ':History:<CR>', {})
+map('n', 'U', ':redo<CR>', {})
 
--- Scrolling
-vim.api.nvim_set_keymap('n', '<PageUp>', '<C-u>', {})
-vim.api.nvim_set_keymap('n', '<PageDown>', '<C-d>', {})
-vim.api.nvim_set_keymap('n', '<Page-Up>', '<C-u>', {})
-vim.api.nvim_set_keymap('n', '<Page-Down>', '<C-d>', {})
-vim.api.nvim_set_keymap('n', '<Home>', 'gg', {})
-vim.api.nvim_set_keymap('n', '<End>', 'G', {})
-vim.api.nvim_set_keymap('n', '[', '{', {})
-vim.api.nvim_set_keymap('n', ']', '}', {})
+-- SCROLLING ---
+map('n', '<PageUp>', '<C-u>', {})
+map('n', '<PageDown>', '<C-d>', {})
+map('n', '<Page-Up>', '<C-u>', {})
+map('n', '<Page-Down>', '<C-d>', {})
+map('n', '<Home>', 'gg', {})
+map('n', '<End>', 'G', {})
+map('n', '[', '{', {})
+map('n', ']', '}', {})
 
--- Visual
-vim.api.nvim_set_keymap('n', 'vv', 'V', {})
-vim.api.nvim_set_keymap('v', 'm', 'gq$', {})
-vim.api.nvim_set_keymap('v', '<', '<gv', {})
-vim.api.nvim_set_keymap('v', '>', '>gv', {})
-vim.api.nvim_set_keymap('v', '<Left>', '<gv', {})
-vim.api.nvim_set_keymap('v', '<Right>', '>gv', {})
+-- VISUAL ---
+map('n', 'vv', 'V', {})
+map('v', 'm', 'gq$', {})
+map('v', '<', '<gv', {})
+map('v', '>', '>gv', {})
+map('v', '<Left>', '<gv', {})
+map('v', '<Right>', '>gv', {})
 
-vim.api.nvim_set_keymap('n', ',s', ':%s//g<Left><Left>', {})
-vim.api.nvim_set_keymap('n', ',S', ':s//g<Left><Left>', {})
-vim.api.nvim_set_keymap('v', ',s', ':s//g<Left><Left>', {})
+map('n', ',s', ':%s//g<Left><Left>', {})
+map('n', ',S', ':s//g<Left><Left>', {})
+map('v', ',s', ':s//g<Left><Left>', {})
 
--- Reformat entire paragraph
-vim.api.nvim_set_keymap('n', '==', 'm9vip=g`9', {})
+-- REFORMAT ENTIRE PARAGRAPH ---
+map('n', '==', 'm9vip=g`9', {})
 
--- Case Sensitive Search
-vim.api.nvim_set_keymap('n', 'c/', '/\\C', {})
+-- CASE SENSITIVE SEARCH ---
+map('n', 'c/', '/\\C', {})
 
--- Meta
-vim.api.nvim_set_keymap('n', ',vs', ':so ~/.config/nvim/init.lua<CR>', {})
-vim.api.nvim_set_keymap('n', ',vv', ':e ~/.config/nvim/init.lua<CR>', {})
-vim.api.nvim_set_keymap('n', ',vm', ':e ~/.config/nvim/maps.lua<CR>', {})
+-- META ---
+map('n', ',vs', ':so ~/.config/nvim/init.lua<CR>', {})
+map('n', ',vv', ':e ~/.config/nvim/init.lua<CR>', {})
+map('n', ',vm', ':e ~/.config/nvim/lua/maps.lua<CR>', {})
+map('n', ',vt', ':e ~/.config/nvim/lua/settings.lua<CR>', {})
+map('n', ',vd', ':e ~/.config/nvim/lua/dependencies.lua<CR>', {})
+map('n', ',vu', ':e ~/.config/nvim/lua/autocommand.lua<CR>', {})
 
+-- ZSH ---
+map('n', ',vz', ':e ~/.zshrc<CR>', {})
+map('n', '-', ':e %:h<CR>', {})
 
--- Zsh
-vim.api.nvim_set_keymap('n', ',vz', ':e ~/.zshrc<CR>', {})
-vim.api.nvim_set_keymap('n', '-', ':e %:h<CR>', {})
+map('n', ',,n', ':set nu<CR>', {})
+map('n', ',,N', ':set nonu<CR>', {})
 
-vim.api.nvim_set_keymap('n', ',,n', ':set nu<CR>', {})
-vim.api.nvim_set_keymap('n', ',,N', ':set nonu<CR>', {})
+-- COMMENTS ---
+map('n', ',c', ':CommentToggle<CR>', {})
 
--- Comments
--- vim.api.nvim_set_keymap('n', ',c', ':call NERDComment("n", "toggle")<cr>', {})
--- vim.api.nvim_set_keymap('v', ',c', ':call NERDComment("v", "toggle")<cr>', {})
--- vim.api.nvim_set_keymap('n', ',C', ':call NERDComment("n", "minimal")<cr>', {})
--- vim.api.nvim_set_keymap('v', ',C', ':call NERDComment("v", "minimal")<cr>', {})
--- vim.g.NERDTrimTrailingWhitespace = 1
+-- QUICKFIXLIST THAT LOOPS!
+cmd('command! Cnext try | cnext | catch | cfirst | catch | endtry')
+cmd('command! Cprev try | cprev | catch | clast | catch | endtry')
+cmd('command! Lnext try | lnext | catch | lfirst | catch | endtry')
+cmd('command! Lprev try | lprev | catch | llast | catch | endtry')
 
--- Quickfixlist that loops!
-vim.cmd('command! Cnext try | cnext | catch | cfirst | catch | endtry')
-vim.cmd('command! Cprev try | cprev | catch | clast | catch | endtry')
-vim.cmd('command! Lnext try | lnext | catch | lfirst | catch | endtry')
-vim.cmd('command! Lprev try | lprev | catch | llast | catch | endtry')
+-- map('n', '\|', ':vsplit<CR>:term<CR>a', {})
+map('n', '\\|', ':split<CR><C-w>j:term<CR>a', {})
+map('n', ',\\', ':term<CR>a', {})
 
--- vim.api.nvim_set_keymap('n', '\|', ':vsplit<CR>:term<CR>a', {})
-vim.api.nvim_set_keymap('n', '\\|', ':split<CR><C-w>j:term<CR>a', {})
-vim.api.nvim_set_keymap('n', ',\\', ':term<CR>a', {})
-
--- Misc
-
-vim.api.nvim_set_keymap('n', 'gf', 'gF', {})
-vim.api.nvim_set_keymap('n', '<M-[>', 'q:', {})
+-- MISC
+map('n', 'gf', 'gF', {})
+map('n', '<M-[>', 'q:', {})
 -- lookup keyword is almost never used, invert J instead
-vim.api.nvim_set_keymap('n', 'K', 'i<CR><Esc>R', {})
+map('n', 'K', 'i<CR><Esc>R', {})
 vim.opt.mouse = 'a'
