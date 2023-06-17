@@ -1,2 +1,2 @@
-require("dependencies")
-require("maps")
+require "dependencies"
+require "maps"

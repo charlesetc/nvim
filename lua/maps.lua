@@ -22,14 +22,6 @@ vim.api.nvim_set_var('mapleader', ',.')
 vim.api.nvim_set_var('maplocalleader', ',.')
 vim.api.nvim_set_option('clipboard', 'unnamed')
 
--- ===== Normal mappings =====
--- CoC
-vim.api.nvim_set_keymap('n', '<silent> <Tab>', ':call CocAction("doHover")<CR>', {})
-vim.api.nvim_set_keymap('n', ']y', ':CocFirst diagnostics<CR>', {})
-vim.api.nvim_set_keymap('n', '[;', ':CocNext diagnostics<CR>', {})
-vim.api.nvim_set_var('b:coc_diagnostic_disable', 1)
-vim.api.nvim_set_var('g:SuperTabDefaultCompletionType', '<c-n>')
-
 -- Pane movement
 vim.api.nvim_set_keymap('n', ',h', '<C-w>h', {})
 vim.api.nvim_set_keymap('n', ',j', '<C-w>j', {})
@@ -63,7 +55,7 @@ vim.api.nvim_set_keymap('n', ',B', ':Buffers<CR>', {})
 vim.api.nvim_set_keymap('n', ',<SPACE>', ':Buffers<CR>', {})
 vim.api.nvim_set_keymap('n', ',a', ':Rg<CR>', {})
 vim.api.nvim_set_keymap('n', ',A', ':Lines<CR>', {})
-vim.api.nvim_set_keymap('n', ',n', ':Files<CR>', {})
+vim.api.nvim_set_keymap('n', ',n', ':Telescope find_files<CR>', {})
 vim.api.nvim_set_keymap('n', ',fc', ':Commands<CR>', {})
 vim.api.nvim_set_keymap('n', ',W', ':Windows<CR>', {})
 vim.api.nvim_set_keymap('n', ',N', ':History<CR>', {})
@@ -99,10 +91,9 @@ vim.api.nvim_set_keymap('n', '==', 'm9vip=g`9', {})
 vim.api.nvim_set_keymap('n', 'c/', '/\\C', {})
 
 -- Meta
-vim.api.nvim_set_keymap('n', ',vs', ':so ~/.vimrc<CR>', {})
-vim.api.nvim_set_keymap('n', ',vv', ':e ~/.vimrc<CR>', {})
-vim.api.nvim_set_keymap('n', ',vm', ':e ~/.vim/plugin/charles/map.vim<CR>', {})
-vim.api.nvim_set_keymap('n', ',vj', ':so ~/.vimrc<CR>', {})
+vim.api.nvim_set_keymap('n', ',vs', ':so ~/.config/nvim/init.lua<CR>', {})
+vim.api.nvim_set_keymap('n', ',vv', ':e ~/.config/nvim/init.lua<CR>', {})
+vim.api.nvim_set_keymap('n', ',vm', ':e ~/.config/nvim/maps.lua<CR>', {})
 
 
 -- Zsh
