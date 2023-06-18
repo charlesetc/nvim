@@ -26,7 +26,7 @@ set.foldlevel = 100
 set.history = 1000
 set.backspace = 'indent,eol,start'
 set.undofile = true
-set.undodir = '~/.vim/undo'
+set.undodir = os.getenv("HOME") .. '/.vim/undo'
 set.virtualedit = 'all'
 
 
