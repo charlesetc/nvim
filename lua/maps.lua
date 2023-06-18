@@ -1,4 +1,4 @@
--- -TERMINAL-MODE MAPPINGS ---
+--- TERMINAL-MODE MAPPINGS ---
 local fn = vim.fn
 local api = vim.api
 local cmd = vim.cmd
@@ -113,6 +113,7 @@ map('n', ',,N', ':set nonu<CR>', {})
 
 -- COMMENTS ---
 map('n', ',c', ':CommentToggle<CR>', {})
+map('v', ',c', ':CommentToggle<CR>', {})
 
 -- QUICKFIXLIST THAT LOOPS!
 cmd('command! Cnext try | cnext | catch | cfirst | catch | endtry')
