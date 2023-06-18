@@ -1,4 +1,5 @@
 local set = vim.o
+local opt = vim.opt
 
 --- Tabs ---
 set.smarttab = true
@@ -31,3 +32,7 @@ set.virtualedit = 'all'
 
 -- set sign column to always be around
 set.signcolumn = 'yes'
+
+opt.backup = false
+opt.writebackup = false
+opt.swapfile = false

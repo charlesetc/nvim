@@ -1,4 +1,4 @@
---- TERMINAL-MODE MAPPINGS ---
+-- -TERMINAL-MODE MAPPINGS ---
 local fn = vim.fn
 local api = vim.api
 local cmd = vim.cmd
@@ -39,6 +39,10 @@ map('n', ',o', ':only<CR>', {})
 map('n', ',i', ':vsplit<CR>', {})
 map('n', ',e', ':split<CR>', {})
 
+--- GIT ---
+
+map('n', ',g', ':Neogit<CR>', {})
+
 -- WINDOWS AND BUFFERS ---
 map('n', ',<ESC>', ':close<CR>', {})
 map('n', ',b', ':q<CR>', {})
@@ -57,11 +61,11 @@ map('n', 'M', ':bp<CR>', {})
 -- FINDING MAPPINGS ---
 map('n', ',t', ':Telescope<CR>', {})
 map('n', ',<SPACE>', ':Buffers<CR>', {})
-map('n', ',a', ':Rg<CR>', {})
-map('n', ',A', ':Lines<CR>', {})
+map('n', ',a', ':Telescope live_grep<CR>', {})
+map('n', 'gl', ':Telescope lsp_document_symbols<CR>', {})
 map('n', ',n', ':Telescope find_files<CR>', {})
 map('n', ',fc', ':Commands<CR>', {})
-map('n', '<C-R>', ':History:<CR>', {})
+map('n', '<C-R>', ':Telescope command_history<CR>', {})
 map('n', 'U', ':redo<CR>', {})
 
 -- SCROLLING ---

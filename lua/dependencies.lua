@@ -31,7 +31,20 @@ require('packer').startup(function(use)
   use 'hrsh7th/cmp-nvim-lsp'     -- LSP source for nvim-cmp
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
   use 'L3MON4D3/LuaSnip'         -- Snippets plugin
+  use { 'kevinhwang91/nvim-bqf' }
+  use 'romgrk/barbar.nvim'
 
+
+  --- COPILOT ---
+
+  use {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({})
+    end,
+  }
 
   -- rest
   use { "catppuccin/nvim", as = "catppuccin" }
@@ -51,7 +64,6 @@ require('packer').startup(function(use)
     end
   }
 
-  use { 'kdheepak/tabline.nvim' }
 
   use {
     'numToStr/Comment.nvim',
@@ -78,6 +90,7 @@ vim.cmd.colorscheme "catppuccin-latte"
 local lspconfig = require('lspconfig')
 
 lspconfig.tsserver.setup {}
+-- lspconfig.html.setup {}
 lspconfig.lua_ls.setup {
   settings = {
     Lua = {
@@ -164,11 +177,15 @@ cmp.setup {
 
 --- TABLINE ---
 
-require('tabline').setup { enable = true, options = {
-  show_tabs_always = true,
-  show_devicons = false,
-  section_separators = { ' ', ' ' }
-} }
+require('barbar').setup {
+  icons = {
+    preset = "powerline",
+    button = " ",
+    filetype = {
+      enabled = false
+    },
+  }
+}
 
 --- GIT ---
 
