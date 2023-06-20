@@ -35,8 +35,9 @@ require('packer').startup(function(use)
   use 'romgrk/barbar.nvim'
 
   use 'nvim-pack/nvim-spectre'
+  use 'echasnovski/mini.pairs'
 
-  use { 'stevearc/oil.nvim', }
+  use { 'stevearc/oil.nvim' }
 
 
   use { "catppuccin/nvim", as = "catppuccin" }
@@ -201,6 +202,10 @@ neogit.setup {
 }
 
 require('gitsigns').setup()
+
+--- AUTO PAIRING ---
+
+require('mini.pairs').setup()
 
 --- TELESCOPE ---
 
