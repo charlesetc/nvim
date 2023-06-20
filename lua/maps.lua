@@ -121,6 +121,9 @@ cmd('command! Cprev try | cprev | catch | clast | catch | endtry')
 cmd('command! Lnext try | lnext | catch | lfirst | catch | endtry')
 cmd('command! Lprev try | lprev | catch | llast | catch | endtry')
 
+--- DIRECTORY NAVIGATION ---
+vim.keymap.set("n", "-", require("oil").open, { desc = "Open parent directory" })
+
 -- map('n', '\|', ':vsplit<CR>:term<CR>a', {})
 map('n', '\\|', ':split<CR><C-w>j:term<CR>a', {})
 map('n', ',\\', ':term<CR>a', {})

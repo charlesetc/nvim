@@ -36,6 +36,8 @@ require('packer').startup(function(use)
 
   use 'nvim-pack/nvim-spectre'
 
+  use { 'stevearc/oil.nvim', }
+
 
   use { "catppuccin/nvim", as = "catppuccin" }
   use { "nvim-telescope/telescope.nvim", requires = { { "nvim-lua/plenary.nvim" } }, }
@@ -85,6 +87,9 @@ require('spectre').setup()
 --- COLORS ---
 
 vim.cmd.colorscheme "catppuccin-latte"
+
+--- DIRECTORY NAVIGATION ---
+require("oil").setup()
 
 --- LSP ---
 
@@ -190,7 +195,10 @@ require('barbar').setup {
 --- GIT ---
 
 local neogit = require('neogit')
-neogit.setup {}
+neogit.setup {
+  disable_insert_on_commit = false,
+  disable_commit_confirmation = true,
+}
 
 require('gitsigns').setup()
 
