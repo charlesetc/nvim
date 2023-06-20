@@ -3,3 +3,6 @@
 -- highlight(0, "BufferDefaultInactive", { ctermfg = 20 })
 -- highlight(0, "BufferDefaultCurrent", { ctermfg = 'white', ctermbg = 'black' })
 -- vim.cmd([[highlight BufferDefaultCurrent ctermfg=white ctermbg=black]])
+
+vim.cmd("highlight SpecterSearch ctermfg=white ctermbg=black")
+vim.cmd("highlight SpecterReplace ctermfg=white ctermbg=black")

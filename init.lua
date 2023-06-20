@@ -5,7 +5,7 @@ package.loaded.autocommand = nil
 package.loaded["color-overrides"] = nil
 
 require "settings"
+require "color-overrides"
 require "dependencies"
 require "maps"
-require "autocommand"
-require "color-overrides"
+require "autocommand" -- not working

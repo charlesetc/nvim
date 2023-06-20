@@ -1,3 +1,6 @@
+local augroup = vim.api.nvim_create_augroup -- Create/get autocommand group
+local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
+
 -- Language Types ---
 vim.cmd("autocmd! BufRead,BufNewFile *.folk set filetype=tcl")
 
@@ -10,3 +13,32 @@ vim.cmd([[
 
 vim.cmd("autocmd FileType gitcommit exec 'au VimEnter * startinsert'")
 vim.cmd("autocmd FileType gitcommit imap <C-X> <C-o>:x<CR>")
+
+-- Don't auto commenting new lines
+autocmd('BufEnter', {
+  pattern = '',
+  command = 'set fo-=c fo-=r fo-=o'
+})
+
+-- -- Remove whitespace on save
+-- autocmd('BufWritePre', {
+--   pattern = '',
+--   command = ":%s/\\s\\+$//e"
+-- })
+
+
+-- -- Enter insert mode when switching to terminal
+-- autocmd('TermOpen', {
+--   command = 'setlocal listchars= nonumber norelativenumber nocursorline',
+-- })
+--
+-- autocmd('TermOpen', {
+--   pattern = '',
+--   command = 'startinsert'
+-- })
+--
+-- -- Close terminal buffer on process exit
+-- autocmd('BufLeave', {
+--   pattern = 'term://*',
+--   command = 'stopinsert'
+-- })

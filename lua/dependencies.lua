@@ -34,11 +34,20 @@ require('packer').startup(function(use)
   use { 'kevinhwang91/nvim-bqf' }
   use 'romgrk/barbar.nvim'
 
+  use 'nvim-pack/nvim-spectre'
+
 
   use { "catppuccin/nvim", as = "catppuccin" }
   use { "nvim-telescope/telescope.nvim", requires = { { "nvim-lua/plenary.nvim" } }, }
   use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
   use 'terrortylor/nvim-comment'
+
+  use { 'akinsho/git-conflict.nvim', tag = "*", config = function()
+    require('git-conflict').setup({})
+  end }
+
+  use { 'lewis6991/gitsigns.nvim' }
+
 
   use {
     "folke/which-key.nvim",
@@ -68,6 +77,10 @@ end)
 
 --- COMMENTS ---
 require('nvim_comment').setup()
+
+
+-- FIND AND REPLACE ---
+require('spectre').setup()
 
 --- COLORS ---
 
@@ -178,6 +191,8 @@ require('barbar').setup {
 
 local neogit = require('neogit')
 neogit.setup {}
+
+require('gitsigns').setup()
 
 --- TELESCOPE ---
 
