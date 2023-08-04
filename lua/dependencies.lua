@@ -25,17 +25,28 @@ local packer_bootstrap = ensure_packer()
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
-  -- recommended completion plugins
-  use "neovim/nvim-lspconfig"
-  use 'hrsh7th/nvim-cmp'         -- Autocompletion plugin
-  use 'hrsh7th/cmp-nvim-lsp'     -- LSP source for nvim-cmp
-  use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
-  use 'L3MON4D3/LuaSnip'         -- Snippets plugin
   use { 'kevinhwang91/nvim-bqf' }
   use 'romgrk/barbar.nvim'
 
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    run = function()
+      local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
+      ts_update()
+    end,
+  }
+
+  use({
+    "kylechui/nvim-surround",
+    tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+    config = function()
+      require("nvim-surround").setup()
+    end
+  })
+
   use 'nvim-pack/nvim-spectre'
   use 'echasnovski/mini.pairs'
+  use { 'mattn/vim-gist', requires = 'mattn/webapi-vim' }
 
   use { 'stevearc/oil.nvim' }
 
@@ -45,11 +56,23 @@ require('packer').startup(function(use)
   use { 'TimUntersberger/neogit', requires = 'nvim-lua/plenary.nvim' }
   use 'terrortylor/nvim-comment'
 
-  use { 'akinsho/git-conflict.nvim', tag = "*", config = function()
-    require('git-conflict').setup({})
-  end }
+  use { 'akinsho/git-conflict.nvim' }
 
   use { 'lewis6991/gitsigns.nvim' }
+
+  use { 'windwp/nvim-ts-autotag' }
+
+  use "rafamadriz/friendly-snippets"
+
+  -- CMP & LUASNIP --
+
+  use "neovim/nvim-lspconfig"
+  use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use { "L3MON4D3/LuaSnip", requires = "rafamadriz/friendly-snippets" }
+  use { 'hrsh7th/nvim-cmp' }
+  use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
 
 
   use {
@@ -62,6 +85,10 @@ require('packer').startup(function(use)
         -- refer to the configuration section below
       }
     end
+  }
+
+  use {
+    "benfowler/telescope-luasnip.nvim",
   }
 
 
@@ -78,6 +105,54 @@ require('packer').startup(function(use)
   end
 end)
 
+--- CMP COMPLETION ---
+
+local cmp = require 'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      require 'luasnip'.lsp_expand(args.body)
+    end
+  },
+
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+    -- more sources
+  },
+
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif require('luasnip').expand_or_jumpable() then
+        require('luasnip').expand_or_jump()
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif require('luasnip').jumpable(-1) then
+        require('luasnip').jump(-1)
+      else
+        fallback()
+      end
+    end,
+  },
+}
+
 --- COMMENTS ---
 require('nvim_comment').setup()
 
@@ -90,6 +165,7 @@ require('spectre').setup()
 vim.cmd.colorscheme "catppuccin-latte"
 
 --- DIRECTORY NAVIGATION ---
+
 require("oil").setup()
 
 --- LSP ---
@@ -127,59 +203,13 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local lspconfig = require('lspconfig')
 
 -- Enable some language servers with the additional completion capabilities offered by nvim-cmp
-local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver' }
+local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'ocamllsp' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     -- on_attach = my_custom_on_attach,
     capabilities = capabilities,
   }
 end
-
--- luasnip setup
-local luasnip = require 'luasnip'
-
--- nvim-cmp setup
--- local cmp = require 'cmp'
--- cmp.setup {
---   snippet = {
---     expand = function(args)
---       luasnip.lsp_expand(args.body)
---     end,
---   },
---   mapping = cmp.mapping.preset.insert({
---     ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
---     ['<C-d>'] = cmp.mapping.scroll_docs(4),  -- Down
---     -- C-b (back) C-f (forward) for snippet placeholder navigation.
---     ['<C-Space>'] = cmp.mapping.complete(),
---     ['<CR>'] = cmp.mapping.confirm {
---       behavior = cmp.ConfirmBehavior.Replace,
---       select = true,
---     },
---     ['<Tab>'] = cmp.mapping(function(fallback)
---       if cmp.visible() then
---         cmp.select_next_item()
---       elseif luasnip.expand_or_jumpable() then
---         luasnip.expand_or_jump()
---       else
---         fallback()
---       end
---     end, { 'i', 's' }),
---     ['<S-Tab>'] = cmp.mapping(function(fallback)
---       if cmp.visible() then
---         cmp.select_prev_item()
---       elseif luasnip.jumpable(-1) then
---         luasnip.jump(-1)
---       else
---         fallback()
---       end
---     end, { 'i', 's' }),
---   }),
---   sources = {
---     { name = 'nvim_lsp' },
---     { name = 'luasnip' },
---   },
--- }
---
 
 --- TABLINE ---
 
@@ -203,9 +233,28 @@ neogit.setup {
 
 require('gitsigns').setup()
 
+
+require('git-conflict').setup()
+
 --- AUTO PAIRING ---
 
-require('mini.pairs').setup()
+require('mini.pairs').setup({
+  modes = { insert = true, command = false, terminal = false },
+  mappings = {
+    ['('] = { action = 'open', pair = '()', neigh_pattern = '[^\\][ \t\n\r]' },
+    ['['] = { action = 'open', pair = '[]', neigh_pattern = '[^\\][ \t\n\r]' },
+    ['{'] = { action = 'open', pair = '{}', neigh_pattern = '[^\\][ \t\n\r]' },
+
+    [')'] = { action = 'close', pair = '()', neigh_pattern = '[^\\].' },
+    [']'] = { action = 'close', pair = '[]', neigh_pattern = '[^\\].' },
+    ['}'] = { action = 'close', pair = '{}', neigh_pattern = '[^\\].' },
+
+    ['"'] = { action = 'closeopen', pair = '""', neigh_pattern = '[^\\][ \t\n\r]', register = { cr = false } },
+    ["'"] = { action = 'closeopen', pair = "''", neigh_pattern = '[^%a\\][ \t\n\r]', register = { cr = false } },
+    ['`'] = { action = 'closeopen', pair = '``', neigh_pattern = '[^\\][ \t\n\r]', register = { cr = false } },
+  },
+}
+)
 
 --- TELESCOPE ---
 
@@ -220,3 +269,30 @@ telescope.setup {
     },
   },
 }
+
+telescope.load_extension('luasnip')
+
+--- TREESITTER ---
+
+require 'nvim-treesitter.configs'.setup {
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "ocaml" },
+  autotag = {
+    enable = true,
+  },
+  auto_install = true,
+  highlight = {
+    enable = true,
+  }
+}
+
+--- LUA SNIPPETS ---
+
+local ls = require 'luasnip'
+
+ls.config.set_config {
+  history = true,
+  updateevents = "TextChanged,TextChangedI",
+  enable_autosnippets = true,
+}
+
+require("luasnip.loaders.from_vscode").lazy_load()

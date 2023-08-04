@@ -14,6 +14,13 @@ vim.cmd([[
 vim.cmd("autocmd FileType gitcommit exec 'au VimEnter * startinsert'")
 vim.cmd("autocmd FileType gitcommit imap <C-X> <C-o>:x<CR>")
 
+-- vim.cmd("autocmd! BufEnver )
+
+autocmd('BufEnter', {
+  pattern = '',
+  command = 'BufferOrderByBufferNumber'
+})
+
 -- Don't auto commenting new lines
 autocmd('BufEnter', {
   pattern = '',

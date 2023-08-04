@@ -39,6 +39,11 @@ map('n', ',o', ':only<CR>', {})
 map('n', ',i', ':vsplit<CR>', {})
 map('n', ',e', ':split<CR>', {})
 
+--- FORMATTING ---
+
+map('n', 'qq', 'vipgq', {})
+map('i', 'qq', '<C-O>vipgq<C-O>A', {})
+
 --- GIT ---
 
 map('n', ',g', ':Neogit<CR>', {})
@@ -55,15 +60,18 @@ map('n', ',w', ':w<CR>', {})
 map('n', ',x', ':x<CR>', {})
 map('n', ',q', ':qa!<CR>', {})
 map('n', ',b', ':q<CR>', {})
-map('n', 'm', ':bn<CR>', {})
-map('n', 'M', ':bp<CR>', {})
+map('n', 'M', ':bprev<CR>', {})
+map('n', 'm', ':bnext<CR>', {})
 
 -- FINDING MAPPINGS ---
 map('n', ',<SPACE>', ':Telescope<CR>', {})
 map('n', ',a', ':Telescope live_grep<CR>', {})
 map('n', 'gl', ':Telescope lsp_document_symbols<CR>', {})
+map('n', ',fc', ':Telescope commands<CR>', {})
 map('n', ',n', ':Telescope find_files<CR>', {})
-map('n', ',fc', ':Commands<CR>', {})
+map('n', ',fn', ':GitConflictNext<CR>', {})
+map('n', ',fo', ':GitConflictChooseOurs<CR>', {})
+map('n', ',ft', ':GitConflictChooseTheirs<CR>', {})
 map('n', '<C-R>', ':Telescope command_history<CR>', {})
 map('n', 'U', ':redo<CR>', {})
 
@@ -135,3 +143,26 @@ map('n', '<M-[>', 'q:', {})
 map('n', ',t', ':lua vim.lsp.buf.hover()<CR>', {})
 map('n', 'K', 'i<CR><Esc>R', {})
 vim.opt.mouse = 'a'
+
+
+map('n', ',pr', ':! ampy -p /dev/tty.usbmodem11101 run %<CR>', {})
+
+--- LUA SNIP ---
+
+local ls = require("luasnip")
+
+vim.keymap.set({ "i", "s" }, "<C-K>", function()
+  if ls.expand_or_jumpable() then
+    ls.expand_or_jump()
+  end
+end, { silent = true })
+
+-- vim.keymap.set({ "i" }, "<C-K>", function() ls.expand() end, { silent = true })
+vim.keymap.set({ "i", "s" }, "<C-L>", function() ls.jump(1) end, { silent = true })
+vim.keymap.set({ "i", "s" }, "<C-J>", function() ls.jump(-1) end, { silent = true })
+
+vim.keymap.set({ "i", "s" }, "<C-l>", function()
+  if ls.choice_active() then
+    ls.change_choice(1)
+  end
+end, { silent = true })
