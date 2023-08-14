@@ -41,8 +41,10 @@ map('n', ',e', ':split<CR>', {})
 
 --- FORMATTING ---
 
-map('n', 'qq', 'vipgq', {})
-map('i', 'qq', '<C-O>vipgq<C-O>A', {})
+-- These would be useful in certain situations but they
+-- conflict with q to exit a buffer
+-- map('n', 'qq', 'vipgq', {})
+-- map('i', 'qq', '<C-O>vipgq<C-O>A', {})
 
 --- GIT ---
 
@@ -141,7 +143,9 @@ map('n', ',\\', ':term<CR>a', {})
 map('n', 'gf', 'gF', {})
 map('n', '<M-[>', 'q:', {})
 -- lookup keyword is almost never used, invert J instead
-map('n', ',t', ':lua vim.lsp.buf.hover()<CR>', {})
+vim.keymap.set({ "n" }, ",t", function()
+  vim.lsp.buf.hover()
+end)
 map('n', 'K', 'i<CR><Esc>R', {})
 vim.opt.mouse = 'a'
 
@@ -167,3 +171,37 @@ vim.keymap.set({ "i", "s" }, "<C-l>", function()
     ls.change_choice(1)
   end
 end, { silent = true })
+
+--- Lake keymap ---
+
+function file_exists(name)
+  local f = io.open(name, "r")
+  if f ~= nil then
+    io.close(f)
+    return true
+  else
+    return false
+  end
+end
+
+vim.keymap.set({ "n" }, ",r", function()
+  if file_exists("lake.lua") then
+    vim.api.nvim_command('botright split')
+    vim.api.nvim_command('terminal lua lake.lua')
+    vim.api.nvim_command('nnoremap <buffer> q :bdelete<CR>')
+    vim.api.nvim_command('nnoremap <buffer> r :bdelete<CR>')
+    vim.api.nvim_command('nnoremap <buffer> z :bdelete<CR>')
+    vim.api.nvim_command('nnoremap <buffer> ,z :bdelete<CR>')
+    vim.api.nvim_command('nnoremap <buffer> ,d :bdelete<CR>')
+  elseif file_exists("makefile") or file_exists("Makefile") then
+    vim.api.nvim_command('botright split')
+    vim.api.nvim_command('terminal make')
+    vim.api.nvim_command('nnoremap <buffer> q :bdelete<CR>')
+    vim.api.nvim_command('nnoremap <buffer> r :bdelete<CR>')
+    vim.api.nvim_command('nnoremap <buffer> z :bdelete<CR>')
+    vim.api.nvim_command('nnoremap <buffer> ,z :bdelete<CR>')
+    vim.api.nvim_command('nnoremap <buffer> ,d :bdelete<CR>')
+  else
+    print('neither lake.lua or makefile where found')
+  end
+end)

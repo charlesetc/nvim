@@ -44,8 +44,10 @@ autocmd('BufEnter', {
 --   command = 'startinsert'
 -- })
 --
--- -- Close terminal buffer on process exit
--- autocmd('BufLeave', {
+-- Close terminal buffer on process exit
+-- (useful for the make terminal, might not be great for one-off commands)
+
+-- vim.api.nvim_create_autocmd('BufLeave', {
 --   pattern = 'term://*',
 --   command = 'stopinsert'
 -- })

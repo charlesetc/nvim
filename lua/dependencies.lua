@@ -44,8 +44,13 @@ require('packer').startup(function(use)
     end
   })
 
-  use 'nvim-pack/nvim-spectre'
-  use 'echasnovski/mini.pairs'
+  use {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+  }
+  use { 'nvim-pack/nvim-spectre' }
+  use { 'echasnovski/mini.pairs' }
   use { 'mattn/vim-gist', requires = 'mattn/webapi-vim' }
 
   use { 'stevearc/oil.nvim' }
@@ -129,7 +134,7 @@ cmp.setup {
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.close(),
     ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
+      -- behavior = cmp.ConfirmBehavior.Replace,
       select = true,
     },
     ['<Tab>'] = function(fallback)
@@ -153,6 +158,8 @@ cmp.setup {
   },
 }
 
+
+
 --- COMMENTS ---
 require('nvim_comment').setup()
 
@@ -163,6 +170,7 @@ require('spectre').setup()
 --- COLORS ---
 
 vim.cmd.colorscheme "catppuccin-latte"
+vim.o.background = "dark"
 
 --- DIRECTORY NAVIGATION ---
 
@@ -202,11 +210,9 @@ lspconfig.lua_ls.setup {
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local lspconfig = require('lspconfig')
 
--- Enable some language servers with the additional completion capabilities offered by nvim-cmp
 local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'ocamllsp' }
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
-    -- on_attach = my_custom_on_attach,
     capabilities = capabilities,
   }
 end
@@ -271,6 +277,10 @@ telescope.setup {
 }
 
 telescope.load_extension('luasnip')
+
+--- COPILOT ---
+
+require("copilot").setup({})
 
 --- TREESITTER ---
 

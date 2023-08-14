@@ -16,3 +16,10 @@ end)
     body = insert(2, "")
   }))
 })
+
+luasnip.add_snippets("all", {
+  snippet("meta-viewport", fmt([[
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  ]], {})
+  )
+})
