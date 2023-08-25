@@ -44,11 +44,8 @@ require('packer').startup(function(use)
     end
   })
 
-  use {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    event = "InsertEnter",
-  }
+  use { "zbirenbaum/copilot.lua" }
+
   use { 'nvim-pack/nvim-spectre' }
   use { 'echasnovski/mini.pairs' }
   use { 'mattn/vim-gist', requires = 'mattn/webapi-vim' }
@@ -78,6 +75,10 @@ require('packer').startup(function(use)
   use { "L3MON4D3/LuaSnip", requires = "rafamadriz/friendly-snippets" }
   use { 'hrsh7th/nvim-cmp' }
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
+
+  use 'cormacrelf/dark-notify'
+
+  use 'nvimdev/guard.nvim'
 
 
   use {
@@ -170,7 +171,7 @@ require('spectre').setup()
 --- COLORS ---
 
 vim.cmd.colorscheme "catppuccin-latte"
-vim.o.background = "dark"
+-- vim.o.background = "dark"
 
 --- DIRECTORY NAVIGATION ---
 
@@ -205,10 +206,10 @@ lspconfig.lua_ls.setup {
     },
   },
 }
+lspconfig.pyright.setup {}
 
 -- Add additional capabilities supported by nvim-cmp
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
-local lspconfig = require('lspconfig')
 
 local servers = { 'clangd', 'rust_analyzer', 'pyright', 'tsserver', 'ocamllsp' }
 for _, lsp in ipairs(servers) do
@@ -216,6 +217,26 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   }
 end
+
+
+--- FORMATTING ---
+
+local guard = require('guard.filetype')
+
+guard('python')
+    :fmt({
+      cmd = 'black',
+      args = { '--quiet', '-' },
+      stdin = true
+    })
+
+-- Call setup() LAST!
+require('guard').setup({
+  -- the only options for the setup function
+  fmt_on_save = true,
+  -- Use lsp if no formatter was defined for this filetype
+  lsp_as_default_formatter = true,
+})
 
 --- TABLINE ---
 
@@ -294,6 +315,10 @@ require 'nvim-treesitter.configs'.setup {
     enable = true,
   }
 }
+
+--- AUTO DARK THEME ---
+
+require('dark_notify').run()
 
 --- LUA SNIPPETS ---
 

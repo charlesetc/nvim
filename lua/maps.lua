@@ -44,7 +44,7 @@ map('n', ',e', ':split<CR>', {})
 -- These would be useful in certain situations but they
 -- conflict with q to exit a buffer
 -- map('n', 'qq', 'vipgq', {})
--- map('i', 'qq', '<C-O>vipgq<C-O>A', {})
+map('i', 'qq', '<C-O>vipgq<C-O>A', {})
 
 --- GIT ---
 

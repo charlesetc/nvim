@@ -11,6 +11,4 @@ local set = vim.o
 vim.cmd("highlight SpecterSearch ctermfg=black ctermbg=white")
 vim.cmd("highlight SpecterReplace ctermfg=black ctermbg=white")
 
-set.background = 'dark'
-
-vim.cmd("highlight normal ctermbg=black ctermfg=white")
+-- vim.cmd("highlight normal ctermbg=black ctermfg=white")
