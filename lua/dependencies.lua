@@ -75,11 +75,8 @@ require('packer').startup(function(use)
   use { "L3MON4D3/LuaSnip", requires = "rafamadriz/friendly-snippets" }
   use { 'hrsh7th/nvim-cmp' }
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
-
   use 'cormacrelf/dark-notify'
-
   use 'nvimdev/guard.nvim'
-
 
   use {
     "folke/which-key.nvim",
