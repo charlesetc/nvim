@@ -1,29 +1,10 @@
 --- PREFACE ---
-
-local cmd = vim.cmd
-local fn = vim.fn
-local g = vim.g
-local opt = vim.opt
-
-
---- PACKER ---
-
-local ensure_packer = function()
-  local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-  print(install_path)
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
-    vim.cmd [[packadd packer.nvim]]
-    return true
-  end
-  return false
-end
-
-
-local packer_bootstrap = ensure_packer()
+local packer_bootstrap = (require("ensure_packer"))()
 
 require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
+
+  --- NEW DEPENDENCIES HERE ---
 
   use { 'kevinhwang91/nvim-bqf' }
   use 'romgrk/barbar.nvim'
@@ -73,6 +54,7 @@ require('packer').startup(function(use)
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use { "L3MON4D3/LuaSnip", requires = "rafamadriz/friendly-snippets" }
+  use { 'nvim-telescope/telescope-ui-select.nvim' }
   use { 'hrsh7th/nvim-cmp' }
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
   use 'cormacrelf/dark-notify'
