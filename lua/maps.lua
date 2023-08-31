@@ -174,8 +174,9 @@ end, { silent = true })
 -- map('n', ',g', ':Neogit<CR>', {})
 
 vim.keymap.set({ "n" }, ",g", function()
-  vim.cmd("Neogit")
+  -- vim.cmd("vsplit | Neogit")
   vim.cmd("vsplit | terminal git diff")
+  -- vim.keymap.set({ 'i' })
 end, { silent = true })
 
 
