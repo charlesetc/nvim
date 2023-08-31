@@ -46,10 +46,6 @@ map('n', ',e', ':split<CR>', {})
 -- map('n', 'qq', 'vipgq', {})
 map('i', 'qq', '<C-O>vipgq<C-O>A', {})
 
---- GIT ---
-
-map('n', ',g', ':Neogit<CR>', {})
-
 -- WINDOWS AND BUFFERS ---
 map('n', ',<ESC>', ':close<CR>', {})
 map('n', ',b', ':q<CR>', {})
@@ -172,7 +168,18 @@ vim.keymap.set({ "i", "s" }, "<C-l>", function()
   end
 end, { silent = true })
 
---- Lake keymap ---
+
+--- GIT KEYMAP ---
+
+-- map('n', ',g', ':Neogit<CR>', {})
+
+vim.keymap.set({ "n" }, ",g", function()
+  vim.cmd("Neogit")
+  vim.cmd("vsplit | terminal git diff")
+end, { silent = true })
+
+
+--- LAKE KEYMAP ---
 
 function file_exists(name)
   local f = io.open(name, "r")

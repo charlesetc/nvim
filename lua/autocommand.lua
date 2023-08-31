@@ -58,21 +58,12 @@ autocmd('BufEnter', {
 --   command = ":%s/\\s\\+$//e"
 -- })
 
-
 -- -- Enter insert mode when switching to terminal
--- autocmd('TermOpen', {
---   command = 'setlocal listchars= nonumber norelativenumber nocursorline',
--- })
---
--- autocmd('TermOpen', {
---   pattern = '',
---   command = 'startinsert'
--- })
---
--- Close terminal buffer on process exit
--- (useful for the make terminal, might not be great for one-off commands)
+vim.cmd("autocmd! TermOpen * startinsert")
+-- vim.cmd("autocmd BufEnter * if &buftype ==# 'terminal' | startinsert! | endif")
 
--- vim.api.nvim_create_autocmd('BufLeave', {
---   pattern = 'term://*',
---   command = 'stopinsert'
--- })
+-- vim.cmd("autocmd BufWinEnter,WinEnter term://* startinsert")
+-- vim.cmd("autocmd BufReadPost * if &buftype ==# 'terminal' | startinsert! | endif")
+
+-- Don't show the status complete when a process exits, just close the window
+vim.cmd("autocmd! TermClose * execute 'bdelete! ' . expand('<abuf>')")

@@ -6,6 +6,11 @@ require('packer').startup(function(use)
 
   --- NEW DEPENDENCIES HERE ---
 
+  use {
+    'notjedi/nvim-rooter.lua',
+    config = function() require 'nvim-rooter'.setup() end
+  }
+
   use { 'kevinhwang91/nvim-bqf' }
   use 'romgrk/barbar.nvim'
 
@@ -20,9 +25,6 @@ require('packer').startup(function(use)
   use({
     "kylechui/nvim-surround",
     tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-    config = function()
-      require("nvim-surround").setup()
-    end
   })
 
   use { "zbirenbaum/copilot.lua" }
@@ -277,6 +279,7 @@ telescope.setup {
 }
 
 telescope.load_extension('luasnip')
+telescope.load_extension("ui-select")
 
 --- COPILOT ---
 
@@ -294,6 +297,10 @@ require 'nvim-treesitter.configs'.setup {
     enable = true,
   }
 }
+
+-- AUTO CD TO ROOT DIRECTORY --
+
+require 'nvim-rooter'.setup()
 
 --- AUTO DARK THEME ---
 
