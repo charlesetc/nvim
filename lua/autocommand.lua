@@ -18,6 +18,8 @@ local autocmd = vim.api.nvim_create_autocmd -- Create autocommand
 
 -- Language Types ---
 vim.cmd("autocmd! BufRead,BufNewFile *.folk set filetype=tcl")
+vim.cmd("autocmd! BufRead,BufNewFile *.fern set filetype=markdown")
+vim.cmd("autocmd! BufRead,BufNewFile *.fern luafile ~/code/fern/fern.lua")
 
 --- FORMATTING ---
 

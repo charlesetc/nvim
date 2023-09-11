@@ -7,9 +7,11 @@ require('packer').startup(function(use)
   --- NEW DEPENDENCIES HERE ---
 
   use {
-    'notjedi/nvim-rooter.lua',
-    config = function() require 'nvim-rooter'.setup() end
+    'folke/todo-comments.nvim',
+    config = function() require('todo-comments').setup() end
   }
+
+  use { 'notjedi/nvim-rooter.lua' }
 
   use { 'kevinhwang91/nvim-bqf' }
   use 'romgrk/barbar.nvim'
@@ -27,14 +29,20 @@ require('packer').startup(function(use)
     tag = "*", -- Use for stability; omit to use `main` branch for the latest features
   })
 
-  use { "zbirenbaum/copilot.lua" }
-
   use { 'nvim-pack/nvim-spectre' }
   use { 'echasnovski/mini.pairs' }
   use { 'mattn/vim-gist', requires = 'mattn/webapi-vim' }
 
   use { 'stevearc/oil.nvim' }
 
+  use {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({})
+    end,
+  }
 
   use { "catppuccin/nvim", as = "catppuccin" }
   use { "nvim-telescope/telescope.nvim", requires = { { "nvim-lua/plenary.nvim" } }, }
@@ -124,6 +132,8 @@ cmp.setup {
         cmp.select_next_item()
       elseif require('luasnip').expand_or_jumpable() then
         require('luasnip').expand_or_jump()
+      elseif require("copilot.suggestion").is_visible() then
+        require("copilot.suggestion").accept()
       else
         fallback()
       end
@@ -281,10 +291,6 @@ telescope.setup {
 telescope.load_extension('luasnip')
 telescope.load_extension("ui-select")
 
---- COPILOT ---
-
-require("copilot").setup({})
-
 --- TREESITTER ---
 
 require 'nvim-treesitter.configs'.setup {
@@ -306,6 +312,10 @@ require 'nvim-rooter'.setup()
 
 require('dark_notify').run()
 
+--- TODOS ---
+
+require('todo-comments').setup()
+
 --- LUA SNIPPETS ---
 
 local ls = require 'luasnip'
@@ -317,3 +327,7 @@ ls.config.set_config {
 }
 
 require("luasnip.loaders.from_vscode").lazy_load()
+
+--- COPILOT ---
+
+require("copilot").setup({ suggestion = { auto_trigger = true } })

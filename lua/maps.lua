@@ -46,6 +46,10 @@ map('n', ',e', ':split<CR>', {})
 -- map('n', 'qq', 'vipgq', {})
 map('i', 'qq', '<C-O>vipgq<C-O>A', {})
 
+-- Better Scrolling in insert mode
+map('i', '<C-E>', '<C-X><C-E>', {})
+map('i', '<C-Y>', '<C-X><C-Y>', {})
+
 -- WINDOWS AND BUFFERS ---
 map('n', ',<ESC>', ':close<CR>', {})
 map('n', ',b', ':q<CR>', {})

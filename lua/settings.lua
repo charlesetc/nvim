@@ -37,3 +37,5 @@ opt.backup = false
 opt.writebackup = false
 opt.swapfile = false
 opt.backupdir = '/tmp'
+
+set.scrolloff = 4
