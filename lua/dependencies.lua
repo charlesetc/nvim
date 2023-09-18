@@ -6,6 +6,11 @@ require('packer').startup(function(use)
 
   --- NEW DEPENDENCIES HERE ---
 
+  use { "ibhagwan/fzf-lua",
+    -- optional for icon support
+    requires = { "nvim-tree/nvim-web-devicons" }
+  }
+
   use {
     'folke/todo-comments.nvim',
     config = function() require('todo-comments').setup() end
@@ -71,18 +76,6 @@ require('packer').startup(function(use)
   use 'nvimdev/guard.nvim'
 
   use {
-    "folke/which-key.nvim",
-    config = function()
-      vim.o.timeout = true
-      vim.o.timeoutlen = 300
-      require("which-key").setup {
-        -- your configuration comes hereettings
-        -- refer to the configuration section below
-      }
-    end
-  }
-
-  use {
     "benfowler/telescope-luasnip.nvim",
   }
 
@@ -128,12 +121,12 @@ cmp.setup {
       select = true,
     },
     ['<Tab>'] = function(fallback)
-      if cmp.visible() then
+      if require("copilot.suggestion").is_visible() then
+        require("copilot.suggestion").accept()
+      elseif cmp.visible() then
         cmp.select_next_item()
       elseif require('luasnip').expand_or_jumpable() then
         require('luasnip').expand_or_jump()
-      elseif require("copilot.suggestion").is_visible() then
-        require("copilot.suggestion").accept()
       else
         fallback()
       end

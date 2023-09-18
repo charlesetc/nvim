@@ -66,15 +66,14 @@ map('n', 'M', ':bprev<CR>', {})
 map('n', 'm', ':bnext<CR>', {})
 
 -- FINDING MAPPINGS ---
-map('n', ',<SPACE>', ':Telescope<CR>', {})
-map('n', ',a', ':Telescope live_grep<CR>', {})
-map('n', 'gl', ':Telescope lsp_document_symbols<CR>', {})
-map('n', ',fc', ':Telescope commands<CR>', {})
-map('n', ',n', ':Telescope find_files<CR>', {})
+map('n', ',<SPACE>', ':FzfLua<CR>', {})
+map('n', ',a', ':FzfLua live_grep<CR>', {})
+map('n', ',fc', ':FzfLua commands<CR>', {})
+map('n', ',n', ':FzfLua files<CR>', {})
 map('n', ',fn', ':GitConflictNext<CR>', {})
 map('n', ',fo', ':GitConflictChooseOurs<CR>', {})
 map('n', ',ft', ':GitConflictChooseTheirs<CR>', {})
-map('n', '<C-R>', ':Telescope command_history<CR>', {})
+map('n', '<C-R>', ':FzfLua command_history<CR>', {})
 map('n', 'U', ':redo<CR>', {})
 
 -- SCROLLING ---
