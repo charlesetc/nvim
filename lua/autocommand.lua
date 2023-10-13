@@ -68,4 +68,19 @@ vim.cmd("autocmd! TermOpen * startinsert")
 -- vim.cmd("autocmd BufReadPost * if &buftype ==# 'terminal' | startinsert! | endif")
 
 -- Don't show the status complete when a process exits, just close the window
-vim.cmd("autocmd! TermClose * execute 'bdelete! ' . expand('<abuf>')")
+-- vim.cmd("autocmd! TermClose * execute 'bdelete! ' . expand('<abuf>')")
+-- vim.cmd("autocmd! TermClose * if bufexists(expand('<abuf>')) | execute 'bdelete! ' . expand('<abuf>') | endif")
+
+AUTOCMD = {}
+
+function DeleteBuffer(bufnr)
+    if vim.fn.bufexists(bufnr) then
+        vim.cmd('bwipeout! ' .. bufnr)
+    end
+end
+
+function AUTOCMD.ontermclose()
+  DeleteBuffer(vim.fn.expand('<abuf>'))
+end
+
+vim.cmd("autocmd! TermClose * lua AUTOCMD.ontermclose()")

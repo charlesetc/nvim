@@ -6,6 +6,9 @@ require('packer').startup(function(use)
 
   --- NEW DEPENDENCIES HERE ---
 
+
+  use "sindrets/diffview.nvim"
+
   use { "ibhagwan/fzf-lua",
     -- optional for icon support
     requires = { "nvim-tree/nvim-web-devicons" }

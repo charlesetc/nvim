@@ -177,28 +177,9 @@ vim.keymap.set({ "i", "s" }, "<C-l>", function()
   end
 end, { silent = true })
 
-
---- GIT KEYMAP ---
-
-map('n', ',g', ':Neogit<CR>', {})
-
-vim.keymap.set({ "n" }, ",m", function()
-  -- vim.cmd("vsplit | Neogit")
-  vim.cmd("vsplit | terminal git diff")
-  -- vim.keymap.set({ 'i' })
-end, { silent = true })
-
-vim.keymap.set({ "n" }, ",M", function()
-  -- vim.cmd("vsplit | Neogit")
-  vim.cmd("vsplit | terminal git diff --staged")
-  -- vim.keymap.set({ 'i' })
-end, { silent = true })
-
-
-
 --- LAKE KEYMAP ---
 
-function file_exists(name)
+local function file_exists(name)
   local f = io.open(name, "r")
   if f ~= nil then
     io.close(f)
@@ -208,7 +189,7 @@ function file_exists(name)
   end
 end
 
-vim.keymap.set({ "n" }, ",r", function()
+vim.keymap.set({ "n" }, ",R", function()
   if file_exists("lake.lua") then
     vim.api.nvim_command('botright split')
     vim.api.nvim_command('terminal lua lake.lua')
@@ -229,3 +210,101 @@ vim.keymap.set({ "n" }, ",r", function()
     print('neither lake.lua or makefile where found')
   end
 end)
+
+--- EXPECT TEST KEYMAP ---
+
+function Quit_term()
+    local job_id = vim.fn.getbufvar("%", "terminal_job_id")
+    vim.fn.jobstop(job_id)
+end
+
+vim.keymap.set({"n"}, ",r", function()
+  vim.cmd("vsplit | terminal bash -c 'lua lake.lua | less'")
+
+  vim.keymap.set({'i', 't'}, "a", function()
+    Quit_term()
+    vim.cmd("terminal bash -c 'lua lake.lua accept'")
+    vim.cmd.sleep("50m")
+    vim.cmd.bufdo("checktime")
+  end, { silent = true, buffer = true, })
+
+  vim.keymap.set({'t'}, "<space>", Quit_term , { silent = true, buffer = true, })
+  vim.keymap.set({'t'}, "q", Quit_term , { silent = true, buffer = true, })
+
+end, {
+  silent = true,
+})
+
+--- GIT KEYMAP ---
+
+local function shared_git_keymaps()
+  vim.keymap.set({'t', 'n'}, "q", Quit_term, { silent = true, buffer = true, })
+  vim.keymap.set({'t', 'n'}, "<space>", Quit_term, { silent = true, buffer = true, })
+  vim.keymap.set({'t', 'n'}, "c", function()
+    Quit_term()
+    Git_status_mode()
+  end, { silent = true, buffer = true, })
+end
+
+local function normal_mode()
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-\\><C-n>", true, true, true), 'n', true)
+end
+
+local function chain(...)
+  local fns = {...}
+  return function(...)
+    for _, f in ipairs(fns) do
+      f(...)
+    end
+  end
+end
+
+
+function Git_diff_mode()
+  vim.cmd("vsplit | terminal bash -c 'git diff | less'")
+  shared_git_keymaps()
+  vim.keymap.set({'t', 'n'}, "m", chain(Quit_term, Git_status_mode) , { silent = true, buffer = true, })
+end
+
+function Git_diff_file(file)
+  vim.cmd(string.format("vsplit | terminal bash -c 'git diff %s | less'", file))
+  shared_git_keymaps()
+  vim.keymap.set({'t', 'n'}, "m", function()
+    Quit_term()
+    Git_status_mode()
+  end, { silent = true, buffer = true, })
+  vim.keymap.set({'t', 'n'}, "<CR>", function()
+    Quit_term()
+    Git_status_mode()
+  end, { silent = true, buffer = true, })
+end
+
+local function parse_git_status_line(line)
+    -- drop the first space if it exists
+    if string.sub(line, 1, 1) == " " then
+      line = string.sub(line, 2)
+    end
+    -- get everything after the first space
+    local file = string.sub(line, string.find(line, " ") + 1)
+    return file
+end
+
+function Git_status_mode()
+  vim.cmd("vsplit | terminal bash -c 'git status -s | less'")
+  normal_mode()
+  shared_git_keymaps()
+  vim.keymap.set({'t', 'n'}, "m", function()
+    Quit_term()
+    Git_diff_mode()
+  end, { silent = true, buffer = true, })
+
+  vim.keymap.set({'t', 'n'}, "<CR>", function()
+    -- get current line
+    local line = vim.api.nvim_get_current_line()
+    local file = parse_git_status_line(line)
+    Quit_term()
+    Git_diff_file(file)
+  end, { silent = true, buffer = true, })
+end
+
+vim.keymap.set({ "n" }, ",m", Git_diff_mode, { silent = true })
