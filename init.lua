@@ -10,3 +10,6 @@ require "dependencies"
 require "snippets"
 require "maps"
 require "autocommand" -- not working
+
+local x = 2
+

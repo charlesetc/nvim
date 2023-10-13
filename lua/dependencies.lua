@@ -60,7 +60,7 @@ require('packer').startup(function(use)
 
   use { 'windwp/nvim-ts-autotag' }
 
-  use "rafamadriz/friendly-snippets"
+  -- use "rafamadriz/friendly-snippets"
 
   -- CMP & LUASNIP --
 
@@ -68,7 +68,7 @@ require('packer').startup(function(use)
   use 'hrsh7th/cmp-nvim-lsp' -- LSP source for nvim-cmp
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
-  use { "L3MON4D3/LuaSnip", requires = "rafamadriz/friendly-snippets" }
+  use { "L3MON4D3/LuaSnip" }
   use { 'nvim-telescope/telescope-ui-select.nvim' }
   use { 'hrsh7th/nvim-cmp' }
   use 'saadparwaiz1/cmp_luasnip' -- Snippets source for nvim-cmp
@@ -155,7 +155,7 @@ require('spectre').setup()
 --- COLORS ---
 
 vim.cmd.colorscheme "catppuccin-latte"
--- vim.o.background = "dark"
+vim.o.background = "dark"
 
 --- DIRECTORY NAVIGATION ---
 
@@ -166,7 +166,7 @@ require("oil").setup()
 local lspconfig = require('lspconfig')
 
 lspconfig.tsserver.setup {}
--- lspconfig.html.setup {}
+lspconfig.html.setup {}
 lspconfig.lua_ls.setup {
   settings = {
     Lua = {
@@ -205,22 +205,22 @@ end
 
 --- FORMATTING ---
 
-local guard = require('guard.filetype')
-
-guard('python')
-    :fmt({
-      cmd = 'black',
-      args = { '--quiet', '-' },
-      stdin = true
-    })
-
--- Call setup() LAST!
-require('guard').setup({
-  -- the only options for the setup function
-  fmt_on_save = true,
-  -- Use lsp if no formatter was defined for this filetype
-  lsp_as_default_formatter = true,
-})
+-- local guard = require('guard.filetype')
+--
+-- guard('python')
+--     :fmt({
+--       cmd = 'black',
+--       args = { '--quiet', '-' },
+--       stdin = true
+--     })
+--
+-- -- Call setup() LAST!
+-- require('guard').setup({
+--   -- the only options for the setup function
+--   fmt_on_save = false,
+--   -- Use lsp if no formatter was defined for this filetype
+--   lsp_as_default_formatter = true,
+-- })
 
 --- TABLINE ---
 
@@ -303,7 +303,7 @@ require 'nvim-rooter'.setup()
 
 --- AUTO DARK THEME ---
 
-require('dark_notify').run()
+require('dark_notify').run();
 
 --- TODOS ---
 

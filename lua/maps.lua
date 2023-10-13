@@ -118,8 +118,7 @@ map('n', ',vu', ':e ~/.config/nvim/lua/autocommand.lua<CR>', {})
 map('n', ',vz', ':e ~/.zshrc<CR>', {})
 map('n', '-', ':e %:h<CR>', {})
 
-map('n', ',,n', ':set nu<CR>', {})
-map('n', ',,N', ':set nonu<CR>', {})
+map('n', ',,n', ':set invnu<CR>', {})
 
 -- COMMENTS ---
 map('n', ',c', ':CommentToggle<CR>', {})
@@ -140,11 +139,18 @@ map('n', ',\\', ':term<CR>a', {})
 
 -- MISC
 map('n', 'gf', 'gF', {})
+
 map('n', '<M-[>', 'q:', {})
 -- lookup keyword is almost never used, invert J instead
-vim.keymap.set({ "n" }, ",t", function()
+
+vim.keymap.set({ "n" }, ",tt", function()
   vim.lsp.buf.hover()
 end)
+
+vim.keymap.set({ "n" }, ",tn", function()
+  vim.lsp.buf.definition()
+end)
+
 map('n', 'K', 'i<CR><Esc>R', {})
 vim.opt.mouse = 'a'
 
@@ -174,13 +180,20 @@ end, { silent = true })
 
 --- GIT KEYMAP ---
 
--- map('n', ',g', ':Neogit<CR>', {})
+map('n', ',g', ':Neogit<CR>', {})
 
-vim.keymap.set({ "n" }, ",g", function()
+vim.keymap.set({ "n" }, ",m", function()
   -- vim.cmd("vsplit | Neogit")
   vim.cmd("vsplit | terminal git diff")
   -- vim.keymap.set({ 'i' })
 end, { silent = true })
+
+vim.keymap.set({ "n" }, ",M", function()
+  -- vim.cmd("vsplit | Neogit")
+  vim.cmd("vsplit | terminal git diff --staged")
+  -- vim.keymap.set({ 'i' })
+end, { silent = true })
+
 
 
 --- LAKE KEYMAP ---
