@@ -242,7 +242,7 @@ local function shared_git_keymaps()
   vim.keymap.set({'t', 'n'}, "<space>", Quit_term, { silent = true, buffer = true, })
   vim.keymap.set({'t', 'n'}, "c", function()
     Quit_term()
-    Git_status_mode()
+    Git_commit()
   end, { silent = true, buffer = true, })
 end
 
@@ -259,6 +259,13 @@ local function chain(...)
   end
 end
 
+function Git_commit()
+  -- -- first prompt for user input for the commit message, then run the commit
+  -- local message = vim.fn.input("message: ")
+  -- local message = string.gsub(message, '"', '\\"')
+  -- dofile("/Users/charles/.lua/init.lua")
+  -- vim.cmd("terminal bash -c 'git commit -am \\\"" .. message .. "\\\" |& less'")
+end
 
 function Git_diff_mode()
   vim.cmd("vsplit | terminal bash -c 'git diff | less'")
